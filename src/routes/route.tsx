@@ -12,15 +12,6 @@ function routes() {
         <Route path="/login" element={<Login />} />
         <Route path="/signUp" element={<Signup />} />
 
-        {/* <Layout>
-        <Route path="/signUp" element={<Signup />} />
-        <Route path="/signUp" element={<Signup />} />
-        <Route path="/signUp" element={<Signup />} />
-        <Route path="/signUp" element={<Signup />} />
-        <Route path="/signUp" element={<Signup />} />
-        <Route path="/signUp" element={<Signup />} />
-        <Route path="/signUp" element={<Signup />} />
-        </Layout> */}
       </Routes>
     </Router>
   );

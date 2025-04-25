@@ -1,5 +1,5 @@
-import { useMutation } from "@tanstack/react-query"
-import { login, register } from "../../services/auth.service"
+import { useMutation, useQuery } from "@tanstack/react-query"
+import { login, register, getUserInfo } from "../../services/auth.service"
 import { useNavigate } from "react-router-dom"
 import { LoginRequest, SignUpRequest } from './../../types/auth';
 
@@ -22,11 +22,18 @@ export const useSignUp = () => {
     return useMutation<any, any, SignUpRequest>({
         mutationFn: register,
         onSuccess: (res) => {
-            console.log("res-----------------", res);
         },
         onError: (error) => {
             console.log("Error ----------------", error)
         }
     })
+}
 
+export const useInfo = () => {
+    const { data, isLoading } = useQuery({
+        queryKey: ['userInfo'],
+        queryFn: getUserInfo,
+    })
+
+    return { data: data?.data.user, isLoading }
 }

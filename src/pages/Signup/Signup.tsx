@@ -4,7 +4,6 @@ import { validateEmail } from '../../utils/helper';
 import { EmailIcon, LockIcon, UserIcon } from '../../icons/usericon';
 import { FaRegEyeSlash, FaRegEye } from 'react-icons/fa';
 import { validateRequire } from '../../utils/helper';
-import axiosInstance from '../../utils/axiosInstance';
 import { toast } from 'react-toastify';
 import { useSignUp } from '../../utils/hook/useAuth';
 import 'react-toastify/dist/ReactToastify.css';
