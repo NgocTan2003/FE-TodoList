@@ -1,28 +1,50 @@
 import Navbar from "../../components/Navbar/Navbar";
 import { useInfo } from "../../utils/hook/useAuth";
-import { useGetAllNote } from "../../utils/hook/useNote";
+import { useGetAllNote, useSearchNote } from "../../utils/hook/useNote";
 import { MdAdd } from 'react-icons/md';
-import { NoteCard } from "../../Card/NoteCard";
+import { NoteCard } from "../../components/Card/NoteCard";
 import { Note } from "../../types/note";
 import moment from 'moment';
-import { EmptyCard } from "../../Card/EmptyCard";
-import Icon from "../../assets/iconListEmpty.gif"
-
+import { EmptyCard } from "../../components/Card/EmptyCard";
+import IconListEmpty from "../../assets/iconListEmpty.gif"
+import { useEffect, useState } from "react";
+import Modal from 'react-modal'
+import { AddEditNote } from "./AddEditNote";
 
 const Home = () => {
+    const [notes, setNotes] = useState<Note[]>([]);
     const { data: infoUser } = useInfo();
-    const { data: allNotes } = useGetAllNote();
+    const { data: allNotes, refetch } = useGetAllNote();
+    const { mutate: mutateSearch, data: dataSearch } = useSearchNote();
+    const [openAddEditModal, setOpenAddEditModal] = useState({ isShown: false, type: "add", data: null })
+
+    const handleSearchNote = async (query: string) => {
+        await mutateSearch(query);
+    }
+
+    const handleClearSearch = () => {
+        setNotes([]);
+        refetch();
+    }
+
+    useEffect(() => {
+        if (dataSearch) {
+            setNotes(dataSearch);
+        }
+    }, [dataSearch]);
+
+    const displayNotes = notes.length > 0 ? notes : (allNotes ?? []);
 
     return (
         <div>
-            {/* <Navbar userInfo={userInfo} onSearchNote={onSearchNote} handleClearSearch={handleClearSearch}/> */}
+            <Navbar userInfo={infoUser} handleSearchNote={handleSearchNote} handleClearSearch={handleClearSearch} />
             <h1 className='text-2xl text-center mt-10 text-green-500'>Home Page</h1>
 
             <div className='container mx-auto'>
                 <div className='grid grid-cols-3 gap-4 mt-8'>
                     {
-                        allNotes ? (
-                            allNotes.map((item: Note, index: number) => (
+                        displayNotes ? (
+                            displayNotes.map((item: Note, index: number) => (
                                 <NoteCard
                                     key={index}
                                     _id={item._id}
@@ -39,7 +61,7 @@ const Home = () => {
                             ))
                         ) : (
                             <>
-                                <EmptyCard srcImage={Icon} message="Bạn chưa có Note nào. Hãy bấm nút thêm để bắt đầu tạo Note đầu tiên của bạn." />
+                                <EmptyCard srcImage={IconListEmpty} message="Bạn chưa có Note nào. Hãy bấm nút thêm để bắt đầu tạo Note đầu tiên của bạn." />
                             </>
                         )
                     }
@@ -48,12 +70,12 @@ const Home = () => {
 
             <button className='w-16 h-16 flex items-center justify-center rounded-2xl bg-primary hover:bg-blue-600 absolute right-10 bottom-10'
                 onClick={() => {
-                    //setOpenAddEditModal({ isShown: true, type: 'add', data: null })
+                    setOpenAddEditModal({ isShown: true, type: 'add', data: null })
                 }} >
                 <MdAdd />
             </button>
 
-            {/* <Modal
+            <Modal
                 isOpen={openAddEditModal.isShown}
                 onRequestClose={() => { }}
                 style={{
@@ -70,12 +92,8 @@ const Home = () => {
                     onClose={() => {
                         setOpenAddEditModal({ isShown: false, type: 'add', data: null })
                     }}
-                    getAllNotes={getAllNotes}
-                    showToastMessage={showToastMessage}
                 />
-            </Modal> */}
-
-
+            </Modal>
         </div>
     )
 }

@@ -8,3 +8,11 @@ export const getAllNote = async () => {
         })
     return response;
 }
+
+export const searchNote = async (query: string) => {
+    const response = axiosInstance.get("/note/search", {
+        params: { query },
+        withCredentials: true
+    })
+    return response;
+}

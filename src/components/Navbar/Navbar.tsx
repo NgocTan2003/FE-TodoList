@@ -1,26 +1,27 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
 import SearchBar from '../SearchBar/SearchBar'
+import { ProfileInfo } from '../Card/ProfileInfo'
+import { useLogout } from '../../utils/hook/useAuth';
+import IconLogo from "../../assets/iconLogo.png"
+
 
 type Props = {
     userInfo: any
-    onSearchNote: (query: string) => void
+    handleSearchNote: (query: string) => void
     handleClearSearch: () => void
 }
 
-export const Navbar = ({ userInfo, onSearchNote, handleClearSearch }: Props) => {
+export const Navbar = ({ userInfo, handleSearchNote, handleClearSearch }: Props) => {
     const [searchQuery, setSearchQuery] = useState('');
-
-    const navigate = useNavigate();
+    const { mutate: mutateLogout, isLoading: isLoggingOut } = useLogout();
 
     const onLogout = () => {
-        localStorage.clear();
-        navigate('/login')
+        mutateLogout(undefined);
     }
 
     const handleSearch = () => {
         if (searchQuery) {
-            onSearchNote(searchQuery);
+            handleSearchNote(searchQuery);
         }
     }
 
@@ -28,9 +29,10 @@ export const Navbar = ({ userInfo, onSearchNote, handleClearSearch }: Props) => 
         setSearchQuery("");
         handleClearSearch();
     }
+
     return (
-        <div className='bg-white flex items-center justify-between px-6 py-2 drop-shadow'>
-            <h2 className="text-xl font-medium text-black py-2">Notes</h2>
+        <div className='bg-gradient-to-r from-blue-500 to-teal-400 flex items-center justify-between px-6 py-2 drop-shadow'>
+            <img src={IconLogo} alt="Logo" className="w-22 h-15 rounded-lg shadow-lg border-2 border-gray-300 transform transition-transform duration-300 hover:scale-105" />
             <SearchBar
                 value={searchQuery}
                 onChange={(event) => {
@@ -39,7 +41,7 @@ export const Navbar = ({ userInfo, onSearchNote, handleClearSearch }: Props) => 
                 handleSearch={handleSearch}
                 onClearSearch={onClearSearch}
             />
-            {/* <ProfileInfo userInfo={userInfo} onLogout={onLogout} /> */}
+            <ProfileInfo userInfo={userInfo} onLogout={onLogout} />
         </div>
     )
 }

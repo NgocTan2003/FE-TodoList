@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query"
-import { login, register, getUserInfo } from "../../services/auth.service"
+import { login, register, getUserInfo, logout } from "../../services/auth.service"
 import { useNavigate } from "react-router-dom"
 import { LoginRequest, SignUpRequest } from './../../types/auth';
 
@@ -8,7 +8,7 @@ export const useLogin = () => {
     return useMutation<any, any, LoginRequest>({
         mutationFn: login,
         onSuccess: (res) => {
-            if (res && res.data.statuscode == 200) {
+            if (res && res.data.statusCode == 200) {
                 navigate("/")
             }
         },
@@ -36,4 +36,19 @@ export const useInfo = () => {
     })
 
     return { data: data?.data.user, isLoading }
+}
+
+export const useLogout = () => {
+    const navigate = useNavigate()
+    return useMutation<any, any, any>({
+        mutationFn: logout,
+        onSuccess: (res) => {
+            if (res && res.data.statusCode == 200) {
+                navigate("/login")
+            }
+        },
+        onError: (error) => {
+            console.log("Error ----------------", error)
+        }
+    })
 }

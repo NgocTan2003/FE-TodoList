@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useState } from 'react';
 import { validateEmail, validateRequire } from '../../utils/helper';
-import { EmailIcon, LockIcon } from '../../icons/usericon';
+import { EmailIcon, LockIcon } from '../../components/icons/usericon';
 import { FaRegEyeSlash, FaRegEye } from 'react-icons/fa';
 import { useLogin } from '../../utils/hook/useAuth';
 import { toast } from 'react-toastify';

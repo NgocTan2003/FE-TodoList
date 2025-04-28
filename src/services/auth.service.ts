@@ -28,7 +28,7 @@ export const register = async (req: SignUpRequest) => {
 }
 
 export const logout = async () => {
-    const response = axiosInstance.post("/auth/logout", {}, { withCredentials: true })
+    const response = axiosInstance.get("/auth/logout", { withCredentials: true })
     return response;
 }
 
@@ -36,4 +36,5 @@ export const getUserInfo = async () => {
     const response = axiosInstance.get("/auth/infoUser", { withCredentials: true })
     return response;
 }
+
 
