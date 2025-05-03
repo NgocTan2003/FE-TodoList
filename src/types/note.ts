@@ -10,9 +10,19 @@ export type Note = {
     updatedAt: string;
 }
 
-export interface INewData {
-    _id: string,
-    title: string,
-    content: string,
-    tags: []
+export const FormCreateDataKeys = {
+    title: "title",
+    content: "content",
+    tags: "tags",
+    isPinned: "isPinned",
+    images: "images"
+}
+
+export const FormUpdateDataKeys = {
+    title: "title",
+    content: "content",
+    tags: "tags",
+    isPinned: "isPinned",
+    imageOld: "imageOld",
+    images: "images"
 }

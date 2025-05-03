@@ -18,7 +18,7 @@ type NoteCardProps = {
 
 export const NoteCard = (props: NoteCardProps) => {
     return (
-        <div className="border-2 border-gray-300 rounded-lg p-4 bg-white hover:bg-gray-50 hover:border-gray-400 transition-all ease-in-out transform hover:scale-105">
+        <div className="mt-2 lg:mt-0 border border-blue-100 rounded-xl p-4 bg-blue-50 hover:bg-blue-100 hover:border-blue-200 transition-all duration-300 ease-in-out transform hover:scale-[1.02] shadow-sm">
             <div className="flex items-center justify-between">
                 <div>
                     <h6 className="text-lg font-semibold text-gray-800">{props.title}</h6>

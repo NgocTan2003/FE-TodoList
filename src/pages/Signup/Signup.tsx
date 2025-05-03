@@ -4,8 +4,8 @@ import { validateEmail } from '../../utils/helper';
 import { EmailIcon, LockIcon, UserIcon } from '../../components/icons/usericon';
 import { FaRegEyeSlash, FaRegEye } from 'react-icons/fa';
 import { validateRequire } from '../../utils/helper';
-import { toast } from 'react-toastify';
 import { useSignUp } from '../../utils/hook/useAuth';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const signUp = () => {
@@ -30,17 +30,17 @@ const signUp = () => {
     const handleSignUp = async (e: any) => {
         e.preventDefault();
         const errors = [
-            validateRequire(fullName, "FullName"),
+            validateRequire(fullName, "FullName", 6),
             validateRequire(email, "Email"),
             !validateEmail(email) ? "Invalid email" : null,
-            validateRequire(password, "Password"),
+            validateRequire(password, "Password", 6),
             validateRequire(confirmPassword, "Confirm Password"),
             password !== confirmPassword ? "Passwords do not match" : null
         ];
 
         const firstError = errors.find(error => error !== null);
         if (firstError) {
-            toast(firstError);
+            notify(firstError);
             return;
         }
 
@@ -50,18 +50,17 @@ const signUp = () => {
             password: password,
             confirmPassword: confirmPassword
         }).then((res) => {
-            if (res && res.data.statuscode) {
-                const messages = res.data.message;
-                const combinedMessage = Array.isArray(messages)
-                    ? messages.join('\n')
-                    : messages;
-                notify(combinedMessage);
-            }
             if (res && res.data.statuscode == 200) {
                 setFullName('');
                 setEmail('');
                 setPassword('');
                 setConfirmPassword('');
+            } else {
+                const messages = res.data.message;
+                const combinedMessage = Array.isArray(messages)
+                    ? messages.join('/n')
+                    : messages;
+                notify(combinedMessage);
             }
         })
             .catch((err: any) => {

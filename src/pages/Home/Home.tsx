@@ -16,7 +16,17 @@ const Home = () => {
     const { data: infoUser } = useInfo();
     const { data: allNotes, refetch } = useGetAllNote();
     const { mutate: mutateSearch, data: dataSearch } = useSearchNote();
-    const [openAddEditModal, setOpenAddEditModal] = useState({ isShown: false, type: "add", data: null })
+
+    const [openAddEditModal, setOpenAddEditModal] = useState<{
+        isShown: boolean;
+        type: "add" | "edit";
+        data: Note | null;
+    }>({
+        isShown: false,
+        type: "add",
+        data: null
+    });
+
 
     const handleSearchNote = async (query: string) => {
         await mutateSearch(query);
@@ -25,6 +35,10 @@ const Home = () => {
     const handleClearSearch = () => {
         setNotes([]);
         refetch();
+    }
+
+    const handleEdit = (noteDetails: Note) => {
+        setOpenAddEditModal({ isShown: true, type: "edit", data: noteDetails })
     }
 
     useEffect(() => {
@@ -38,10 +52,9 @@ const Home = () => {
     return (
         <div>
             <Navbar userInfo={infoUser} handleSearchNote={handleSearchNote} handleClearSearch={handleClearSearch} />
-            <h1 className='text-2xl text-center mt-10 text-green-500'>Home Page</h1>
 
             <div className='container mx-auto'>
-                <div className='grid grid-cols-3 gap-4 mt-8'>
+                <div className='lg:grid lg:grid-cols-3 gap-4 mt-8'>
                     {
                         displayNotes ? (
                             displayNotes.map((item: Note, index: number) => (
@@ -54,7 +67,7 @@ const Home = () => {
                                     pathImages={item.pathImages}
                                     tags={item.tags}
                                     isPinned={item.isPinned}
-                                    onEdit={() => { }}
+                                    onEdit={() => { handleEdit(item) }}
                                     onDelete={() => { }}
                                     onPinNote={() => { }}
                                 />
@@ -68,7 +81,7 @@ const Home = () => {
                 </div>
             </div>
 
-            <button className='w-16 h-16 flex items-center justify-center rounded-2xl bg-primary hover:bg-blue-600 absolute right-10 bottom-10'
+            <button className='w-16 h-16 fixed flex items-center justify-center rounded-2xl bg-primary hover:bg-blue-600 absolute right-10 bottom-10'
                 onClick={() => {
                     setOpenAddEditModal({ isShown: true, type: 'add', data: null })
                 }} >
@@ -84,7 +97,7 @@ const Home = () => {
                     }
                 }}
                 contentLabel=""
-                className="w-[40%] max-h-3/4 bg-white rounded-md mx-auto mt-14 p-5"
+                className="w-[50%] max-h-[80vh] mx-auto mt-10 p-5 rounded-xl "
             >
                 <AddEditNote
                     type={openAddEditModal.type}
@@ -92,6 +105,7 @@ const Home = () => {
                     onClose={() => {
                         setOpenAddEditModal({ isShown: false, type: 'add', data: null })
                     }}
+                    refetch={refetch}
                 />
             </Modal>
         </div>

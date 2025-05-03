@@ -1,29 +1,30 @@
-/* Thiết lập các kiểu mặc định của Tailwind */
-/* @tailwind utilities; */
-/* Áp dụng các lớp tiện ích */
-/* @import "tailwindcss"; */
-/* Đảm bảo Tailwind được nạp đúng */
-/* @plugin "daisyui"; */
 @import "tailwindcss";
 @plugin "daisyui";
-/* @plugin "daisyui"; */
 
+/* WebKit-based browsers (Chrome, Safari) */
+.scrollbar-hide::-webkit-scrollbar {
+    width: 6px;
+}
 
-/* @layer components {
+.scrollbar-hide::-webkit-scrollbar-track {
+    background: transparent;
+}
 
-    .input-box {
-        @apply w-full text-sm bg-transparent border-[1.5px] px-5 py-3 rounded mb-4 outline-none;
-    }
+.scrollbar-hide::-webkit-scrollbar-thumb {
+    background-color: rgba(156, 163, 175, 0);  
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+}
 
-    .btn-primary {
-        @apply w-full text-sm bg-primary text-white p-2 rounded my-1 hover:bg-blue-600;
-    }
+.scrollbar-hide:hover::-webkit-scrollbar-thumb {
+    background-color: rgba(156, 163, 175, 0.7);  
+}
 
-    .icon-btn {
-        @apply text-xl text-slate-300 cursor-pointer hover:text-primary;
-    }
+ .scrollbar-hide {
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+}
 
-    .input-label {
-        @apply text-xs text-slate-400;
-    }
-} */
+.scrollbar-hide:hover {
+    scrollbar-color: rgba(156, 163, 175, 0.7) transparent;
+}

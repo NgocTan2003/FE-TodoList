@@ -3,10 +3,13 @@ export const validateEmail = (email: string) => {
     return regex.test(email);
 }
 
-export const validateRequire = (value: string, name: string) => {
+export const validateRequire = (value: string, name: string, size?: number) => {
     const valueTrim = value.trim();
     if (valueTrim.length === 0) {
         return `${name} is required`;
+    }
+    if (size && valueTrim.length < size) {
+        return `${name} must be at least ${size} characters`;
     }
     return null;
 }
