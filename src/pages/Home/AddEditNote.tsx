@@ -44,7 +44,6 @@ export const AddEditNote = ({ type, noteData, onClose, refetch }: IData) => {
         }
     };
 
-
     const addNewNote = async (e: any) => {
         const errors = [
             validateRequire(title, "Title", 6),

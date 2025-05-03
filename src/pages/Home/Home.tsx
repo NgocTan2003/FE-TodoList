@@ -10,6 +10,10 @@ import IconListEmpty from "../../assets/iconListEmpty.gif"
 import { useEffect, useState } from "react";
 import Modal from 'react-modal'
 import { AddEditNote } from "./AddEditNote";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Swal from 'sweetalert2';
+
 
 const Home = () => {
     const [notes, setNotes] = useState<Note[]>([]);
@@ -18,6 +22,7 @@ const Home = () => {
     const { mutate: mutateSearch, data: dataSearch } = useSearchNote();
     const deleteNote = useDeleteNote();
     const pinnedNote = usePinnedNote();
+    const notify = (message: string) => toast(message);
 
     const [openAddEditModal, setOpenAddEditModal] = useState<{
         isShown: boolean;
@@ -44,9 +49,21 @@ const Home = () => {
     }
 
     const handleDelete = async (id: string) => {
-        var res = await deleteNote.mutateAsync(id)
-        if (res && res.status === 200) {
-            refetch();
+        const result = await Swal.fire({
+            title: 'Are you sure you want to delete?',
+            text: 'This action cannot be undone.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Delete',
+            cancelButtonText: 'Cancel',
+        });
+
+        if (result.isConfirmed) {
+            var res = await deleteNote.mutateAsync(id)
+            if (res && res.status === 200) {
+                refetch();
+                notify(res.data.message);
+            }
         }
     }
 
