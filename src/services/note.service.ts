@@ -37,7 +37,7 @@ export const deleteNote = async (id: string) => {
 }
 
 export const updatePinned = async (id: string, isPinned: boolean) => {
-    const response = axiosInstance.put(`/note/updatePinned/${id}`, isPinned, {
+    const response = axiosInstance.put(`/note/updatePinned/${id}`, { isPinned }, {
         withCredentials: true
     })
     return response;

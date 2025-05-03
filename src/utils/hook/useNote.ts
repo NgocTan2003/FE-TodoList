@@ -1,4 +1,4 @@
-import { createNote, updateNote, deleteNote, getAllNote, searchNote } from "../../services/note.service";
+import { createNote, updateNote, deleteNote, getAllNote, searchNote, updatePinned } from "../../services/note.service";
 import { useMutation, useQuery } from "@tanstack/react-query"
 
 export const useGetAllNote = () => {
@@ -40,6 +40,17 @@ export const useDeleteNote = () => {
             console.log("Error useDeleteNote ----------------", error);
         }
     })
+}
+
+export const usePinnedNote = () => {
+    return useMutation<any, any, { id: string, isPinned: boolean }>({
+        mutationFn: ({ id, isPinned }) => updatePinned(id, isPinned),
+        onSuccess: (res) => {
+        },
+        onError: (error) => {
+            console.log("Error usePinnedNote ----------------", error);
+        }
+    });
 }
 
 export const useSearchNote = () => {

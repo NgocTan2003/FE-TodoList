@@ -1,6 +1,6 @@
 import Navbar from "../../components/Navbar/Navbar";
 import { useInfo } from "../../utils/hook/useAuth";
-import { useDeleteNote, useGetAllNote, useSearchNote } from "../../utils/hook/useNote";
+import { useDeleteNote, useGetAllNote, useSearchNote, usePinnedNote } from "../../utils/hook/useNote";
 import { MdAdd } from 'react-icons/md';
 import { NoteCard } from "../../components/Card/NoteCard";
 import { Note } from "../../types/note";
@@ -17,6 +17,7 @@ const Home = () => {
     const { data: allNotes, refetch } = useGetAllNote();
     const { mutate: mutateSearch, data: dataSearch } = useSearchNote();
     const deleteNote = useDeleteNote();
+    const pinnedNote = usePinnedNote();
 
     const [openAddEditModal, setOpenAddEditModal] = useState<{
         isShown: boolean;
@@ -50,9 +51,11 @@ const Home = () => {
     }
 
     const handlePinned = async (id: string, isPinned: boolean) => {
-
+        var res = await pinnedNote.mutateAsync({ id, isPinned: !isPinned })
+        if (res && res.status === 200) {
+            refetch();
+        }
     }
-
 
     useEffect(() => {
         if (dataSearch) {
@@ -70,21 +73,23 @@ const Home = () => {
                 <div className='lg:grid lg:grid-cols-3 gap-4 mt-8'>
                     {
                         displayNotes ? (
-                            displayNotes.map((item: Note, index: number) => (
-                                <NoteCard
-                                    key={index}
-                                    _id={item._id}
-                                    title={item.title}
-                                    createdAt={moment(item.createdAt).format('Do MMM YYYY')}
-                                    content={item.content}
-                                    pathImages={item.pathImages}
-                                    tags={item.tags}
-                                    isPinned={item.isPinned}
-                                    onEdit={() => { handleEdit(item) }}
-                                    onDelete={() => { handleDelete(item._id) }}
-                                    onPinNote={() => { handlePinned(item._id, item.isPinned) }}
-                                />
-                            ))
+                            [...displayNotes]
+                                .sort((a, b) => Number(b.isPinned) - Number(a.isPinned))
+                                .map((item: Note, index: number) => (
+                                    <NoteCard
+                                        key={index}
+                                        _id={item._id}
+                                        title={item.title}
+                                        createdAt={moment(item.createdAt).format('Do MMM YYYY')}
+                                        content={item.content}
+                                        pathImages={item.pathImages}
+                                        tags={item.tags}
+                                        isPinned={item.isPinned}
+                                        onEdit={() => { handleEdit(item) }}
+                                        onDelete={() => { handleDelete(item._id) }}
+                                        onPinNote={() => { handlePinned(item._id, item.isPinned) }}
+                                    />
+                                ))
                         ) : (
                             <>
                                 <EmptyCard srcImage={IconListEmpty} message="Bạn chưa có Note nào. Hãy bấm nút thêm để bắt đầu tạo Note đầu tiên của bạn." />
