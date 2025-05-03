@@ -1,6 +1,6 @@
 import Navbar from "../../components/Navbar/Navbar";
 import { useInfo } from "../../utils/hook/useAuth";
-import { useGetAllNote, useSearchNote } from "../../utils/hook/useNote";
+import { useDeleteNote, useGetAllNote, useSearchNote } from "../../utils/hook/useNote";
 import { MdAdd } from 'react-icons/md';
 import { NoteCard } from "../../components/Card/NoteCard";
 import { Note } from "../../types/note";
@@ -16,6 +16,7 @@ const Home = () => {
     const { data: infoUser } = useInfo();
     const { data: allNotes, refetch } = useGetAllNote();
     const { mutate: mutateSearch, data: dataSearch } = useSearchNote();
+    const deleteNote = useDeleteNote();
 
     const [openAddEditModal, setOpenAddEditModal] = useState<{
         isShown: boolean;
@@ -40,6 +41,18 @@ const Home = () => {
     const handleEdit = (noteDetails: Note) => {
         setOpenAddEditModal({ isShown: true, type: "edit", data: noteDetails })
     }
+
+    const handleDelete = async (id: string) => {
+        var res = await deleteNote.mutateAsync(id)
+        if (res && res.status === 200) {
+            refetch();
+        }
+    }
+
+    const handlePinned = async (id: string, isPinned: boolean) => {
+
+    }
+
 
     useEffect(() => {
         if (dataSearch) {
@@ -68,8 +81,8 @@ const Home = () => {
                                     tags={item.tags}
                                     isPinned={item.isPinned}
                                     onEdit={() => { handleEdit(item) }}
-                                    onDelete={() => { }}
-                                    onPinNote={() => { }}
+                                    onDelete={() => { handleDelete(item._id) }}
+                                    onPinNote={() => { handlePinned(item._id, item.isPinned) }}
                                 />
                             ))
                         ) : (
