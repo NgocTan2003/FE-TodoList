@@ -11,11 +11,11 @@ type SearchBarProps = {
 
 const SearchBar = (props: SearchBarProps) => {
     return (
-        <div className="w-80 flex items-center px-4 bg-white rounded-md shadow-md border border-gray-300 hover:shadow-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all duration-300">
+        <div className="lg:w-80 flex items-center px-4 bg-white rounded-md shadow-md border border-gray-300 hover:shadow-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all duration-300">
             <input
                 type="text"
                 value={props.value}
-                placeholder="Nhập nội dung tìm kiếm..."
+                placeholder="Search"
                 className="w-full text-sm text-gray-700 bg-transparent py-[10px]  outline-none placeholder:text-gray-400"
                 onChange={props.onChange}
             />

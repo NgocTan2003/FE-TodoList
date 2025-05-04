@@ -130,7 +130,7 @@ export const AddEditNote = ({ type, noteData, onClose, refetch }: IData) => {
                 <MdClose className="text-2xl text-slate-400" />
             </div>
 
-            <div className='grid grid-cols-2 mt-6'>
+            <div className='lg:grid lg:grid-cols-2 mt-6'>
                 <div className="pr-3">
                     <div className="flex flex-col gap-1 mb-4">
                         <label className="text-sm font-medium text-slate-600">Title</label>
@@ -201,7 +201,7 @@ export const AddEditNote = ({ type, noteData, onClose, refetch }: IData) => {
 
             <button
                 onClick={handleAddNote}
-                className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded-lg transition cursor-pointer"
+                className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded-lg transition cursor-pointer mt-2"
             >
                 {type === "edit" ? "Update" : "Add"}
             </button>

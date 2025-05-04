@@ -1,13 +1,21 @@
-import { createNote, updateNote, deleteNote, getAllNote, searchNote, updatePinned } from "../../services/note.service";
+import { createNote, updateNote, deleteNote, getNotesPaginated, searchNote, updatePinned } from "../../services/note.service";
 import { useMutation, useQuery } from "@tanstack/react-query"
 
-export const useGetAllNote = () => {
+export const useGetPaginatedNotes = (page: number, limit = 5) => {
     const { data, isLoading, refetch } = useQuery({
-        queryKey: ['allNotes'],
-        queryFn: getAllNote,
-    })
-    return { data: data?.data.notes, isLoading, refetch }
-}
+        queryKey: ['paginatedNotes', page, limit],
+        queryFn: () => getNotesPaginated(page, limit),
+        keepPreviousData: true,  
+    });
+
+    return {
+        allNotes: data?.data.notes.docs || [],
+        totalPages: data?.data.notes.totalPages || 1,
+        currentPage: data?.data.notes.page || page,
+        isLoading,
+        refetch,
+    };
+};
 
 export const useCreateNote = () => {
     return useMutation<any, any, FormData>({

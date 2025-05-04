@@ -1,13 +1,18 @@
 import axiosInstance from '../utils/axiosInstance';
 
 
-export const getAllNote = async () => {
-    const response = axiosInstance.get("/note/getall",
-        {
-            withCredentials: true
-        })
+export const getNotesPaginated = async (page = 1, limit = 5, sort = 'createdAt', order = 'desc') => {
+    const response = await axiosInstance.get("/note/getlist", {
+        params: {
+            _page: page,
+            _limit: limit,
+            _sort: sort,
+            _order: order
+        },
+        withCredentials: true
+    });
     return response;
-}
+};
 
 export const createNote = async (formData: FormData) => {
     const response = axiosInstance.post("/note/create", formData, {

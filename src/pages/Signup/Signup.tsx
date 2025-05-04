@@ -71,11 +71,11 @@ const signUp = () => {
     }
 
     return (
-        <div className='w-full flex justify-center pt-20 pb-15 h-screen bg-cover bg-center' style={{ backgroundImage: "url('./src/assets/imageLogin.jpg')" }}>
-            <div className='flex items-center justify-center text-2xl w-1/4 h-full bg-white rounded-lg'>
-                <div className='w-full h-full pt-20 pl-12 pr-12'>
+        <div className='w-full flex justify-center lg:pt-20 lg:pb-15 h-screen bg-cover bg-center' style={{ backgroundImage: "url('./src/assets/imageLogin.jpg')" }}>
+            <div className='flex items-center justify-center text-2xl w-full lg:w-1/4 h-full bg-white rounded-lg'>
+                <div className='w-full h-full pt-25 lg:pt-15 pl-12 pr-12'>
                     <form onSubmit={handleSignUp}>
-                        <h4 className='text-4xl mb-7 text-center font-bold pb-10'>SignUp</h4>
+                        <h4 className='text-4xl mb-6 text-center font-bold pb-10'>SignUp</h4>
 
                         <h4 className='text-base'>FullName</h4>
                         <div className='flex items-center py-2 mb-3 mt-3 border-b border-gray-400'>

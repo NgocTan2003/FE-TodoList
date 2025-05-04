@@ -51,12 +51,13 @@ const Login = () => {
                 }
             })
     }
+
     return (
-        <div className='w-full flex justify-center pt-20 pb-10 h-screen bg-cover bg-center' style={{ backgroundImage: "url('./src/assets/imageLogin.jpg')" }}>
-            <div className='flex items-center justify-center text-2xl w-1/4 h-4/5 bg-white rounded-lg'>
-                <div className='w-full h-full pt-20 pl-12 pr-12'>
+        <div className='w-full flex justify-center lg:pt-20 lg:pb-10 h-screen bg-cover bg-center' style={{ backgroundImage: "url('./src/assets/imageLogin.jpg')" }}>
+            <div className='flex items-center justify-center text-2xl h-full pt-20 lg:pt-0 lg:w-1/4 lg:h-4/5 bg-white lg:rounded-lg'>
+                <div className='w-full h-full pt-20 lg:pt-20 pl-12 pr-12'>
                     <form onSubmit={handleLogin}>
-                        <h4 className='text-4xl mb-7 text-center font-bold pb-10'>Login</h4>
+                        <h4 className='text-4xl mb-4 text-center font-bold pb-10'>Login</h4>
                         <h4 className='text-base'>Email</h4>
                         <div className='flex items-center py-2 mb-3 mt-3 border-b border-gray-400'>
                             {EmailIcon(20, 15)}

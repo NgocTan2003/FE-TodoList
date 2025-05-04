@@ -1,6 +1,6 @@
 import Navbar from "../../components/Navbar/Navbar";
 import { useInfo } from "../../utils/hook/useAuth";
-import { useDeleteNote, useGetAllNote, useSearchNote, usePinnedNote } from "../../utils/hook/useNote";
+import { useDeleteNote, useSearchNote, usePinnedNote } from "../../utils/hook/useNote";
 import { MdAdd } from 'react-icons/md';
 import { NoteCard } from "../../components/Card/NoteCard";
 import { Note } from "../../types/note";
@@ -13,12 +13,14 @@ import { AddEditNote } from "./AddEditNote";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Swal from 'sweetalert2';
-
+import { useGetPaginatedNotes } from "../../utils/hook/useNote";
 
 const Home = () => {
     const [notes, setNotes] = useState<Note[]>([]);
     const { data: infoUser } = useInfo();
-    const { data: allNotes, refetch } = useGetAllNote();
+    const [page, setPage] = useState(1);
+    const [limit, setLimit] = useState(4);  
+    const { allNotes, totalPages, currentPage, isLoading, refetch } = useGetPaginatedNotes(page, limit);
     const { mutate: mutateSearch, data: dataSearch } = useSearchNote();
     const deleteNote = useDeleteNote();
     const pinnedNote = usePinnedNote();
@@ -33,7 +35,6 @@ const Home = () => {
         type: "add",
         data: null
     });
-
 
     const handleSearchNote = async (query: string) => {
         await mutateSearch(query);
@@ -75,9 +76,22 @@ const Home = () => {
     }
 
     useEffect(() => {
-        if (dataSearch) {
-            setNotes(dataSearch);
-        }
+        allNotes
+        const updateLimitBasedOnWidth = () => {
+            const width = window.innerWidth;
+            if (width < 640) {
+                setLimit(4);
+            } else if (width < 1024) {
+                setLimit(6);
+            } else {
+                setLimit(9);
+            }
+        };
+
+        updateLimitBasedOnWidth();  
+        window.addEventListener('resize', updateLimitBasedOnWidth);
+
+        return () => window.removeEventListener('resize', updateLimitBasedOnWidth);
     }, [dataSearch]);
 
     const displayNotes = notes.length > 0 ? notes : (allNotes ?? []);
@@ -114,9 +128,23 @@ const Home = () => {
                         )
                     }
                 </div>
+
+                <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 join mt-4 z-50">
+                    <button className="join-item btn" onClick={() => setPage(page - 1)} disabled={page === 1}>«</button>
+                    {[...Array(totalPages)].map((_, i) => (
+                        <button
+                            key={i}
+                            className={`join-item btn ${page === i + 1 ? 'btn-active' : ''}`}
+                            onClick={() => setPage(i + 1)}
+                        >
+                            {i + 1}
+                        </button>
+                    ))}
+                    <button className="join-item btn" onClick={() => setPage(page + 1)} disabled={page === totalPages}>»</button>
+                </div>
             </div>
 
-            <button className='w-16 h-16 fixed flex items-center justify-center rounded-2xl bg-primary hover:bg-blue-600 absolute right-10 bottom-10'
+            <button className='w-16 h-16 fixed flex items-center justify-center rounded-2xl bg-primary hover:bg-blue-600 absolute right-2 bottom-20 lg:right-10 lg:bottom-10'
                 onClick={() => {
                     setOpenAddEditModal({ isShown: true, type: 'add', data: null })
                 }} >
@@ -132,7 +160,7 @@ const Home = () => {
                     }
                 }}
                 contentLabel=""
-                className="w-[50%] max-h-[80vh] mx-auto mt-10 p-5 rounded-xl "
+                className="lg:w-[50%] lg:max-h-[80vh] w-full h-full mx-auto lg:mt-10 p-2 lg:p-5 rounded-xl "
             >
                 <AddEditNote
                     type={openAddEditModal.type}
