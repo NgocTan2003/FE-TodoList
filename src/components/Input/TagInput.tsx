@@ -37,7 +37,7 @@ export const TagInput = ({ tags, setTags }: TagInputProps) => {
                 )}
             </div>
 
-            <div className='flex items-center gap-4 mt-3'>
+            <div className='flex items-center gap-4 mt-3 text-black'>
                 <input
                     type='text'
                     className='text-sm bg-transparent border px-3 py-2 rounded outline-none'

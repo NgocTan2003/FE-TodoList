@@ -125,7 +125,7 @@ export const AddEditNote = ({ type, noteData, onClose, refetch }: IData) => {
     }
 
     return (
-        <div className="relative bg-white rounded-xl p-8 mt-4 shadow-lg mx-auto">
+        <div className="relative bg-white rounded-xl p-8 mt-4 shadow-lg mx-auto z-999">
             <div className="absolute top-2 right-6 cursor-pointer hover:bg-slate-100 rounded-full p-2 transition" onClick={onClose}>
                 <MdClose className="text-2xl text-slate-400" />
             </div>

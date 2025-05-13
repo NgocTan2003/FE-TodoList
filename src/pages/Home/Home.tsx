@@ -97,7 +97,7 @@ const Home = () => {
     const displayNotes = notes.length > 0 ? notes : (allNotes ?? []);
 
     return (
-        <div>
+        <div className="h-full w-full">
             <Navbar userInfo={infoUser} handleSearchNote={handleSearchNote} handleClearSearch={handleClearSearch} />
 
             <div className='container mx-auto'>
@@ -160,7 +160,7 @@ const Home = () => {
                     }
                 }}
                 contentLabel=""
-                className="lg:w-[50%] lg:max-h-[80vh] w-full h-full mx-auto lg:mt-10 p-2 lg:p-5 rounded-xl "
+                className="lg:w-[50%] lg:max-h-[80vh] w-full h-full mx-auto lg:mt-10 p-2 lg:p-5 rounded-xl z-999"
             >
                 <AddEditNote
                     type={openAddEditModal.type}
