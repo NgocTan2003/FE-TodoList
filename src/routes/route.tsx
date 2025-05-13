@@ -11,7 +11,6 @@ function routes() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signUp" element={<Signup />} />
-
       </Routes>
     </Router>
   );
