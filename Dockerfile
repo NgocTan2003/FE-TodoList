@@ -3,7 +3,7 @@ FROM node:22.14.0
 WORKDIR /app
 
 # Copy file cấu hình trước để caching hiệu quả
-COPY package.json yarn.lock ./
+COPY package.json ./
 
 # Cài đặt dependencies trong môi trường sạch
 RUN yarn install
