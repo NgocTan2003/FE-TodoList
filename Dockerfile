@@ -24,4 +24,4 @@ RUN yarn global add serve
 EXPOSE 5173
 
 # Chạy app production
-CMD ["serve", "-s", "dist", "-l", "4173"]
+CMD ["serve", "-s", "dist", "-l", "5173"]
