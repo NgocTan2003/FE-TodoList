@@ -21,7 +21,7 @@ RUN yarn build
 RUN yarn global add serve
 
 # Cổng chạy mặc định của serve
-EXPOSE 4173
+EXPOSE 5173
 
 # Chạy app production
 CMD ["serve", "-s", "dist", "-l", "4173"]
