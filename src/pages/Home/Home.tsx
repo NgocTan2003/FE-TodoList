@@ -129,7 +129,7 @@ const Home = () => {
                     }
                 </div>
 
-                <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 join mt-4 z-50">
+                <div className="fixed bottom-3 left-1/2 transform -translate-x-1/2 join mt-4 z-50">
                     <button className="join-item btn" onClick={() => setPage(page - 1)} disabled={page === 1}>«</button>
                     {[...Array(totalPages)].map((_, i) => (
                         <button
